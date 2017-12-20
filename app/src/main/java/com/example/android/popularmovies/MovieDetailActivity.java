@@ -13,10 +13,12 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private ImageView mMovieThumbnail;
     private TextView mMovieTitle;
+    private TextView mMovieReleaseDate;
     private TextView mMoviePlot;
     private TextView mMovieRating;
 
     private String vOriginalTitle;
+    private String vReleaseDate;
     private String vImageThumbPath;
     private String vImagePath;
     private String vPlotSynopsis;
@@ -30,11 +32,13 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mMovieThumbnail = (ImageView) findViewById(R.id.tv_movie_thumbnail);
         mMovieTitle = (TextView) findViewById(R.id.tv_movie_title);
+        mMovieReleaseDate = (TextView) findViewById(R.id.tv_movie_release_date);
         mMoviePlot = (TextView) findViewById(R.id.tv_movie_plot);
         mMovieRating = (TextView) findViewById(R.id.tv_movie_rating);
 
         //Get the data from the MovieInfo object from parcelable
         vOriginalTitle = mMovieInfo.getvOriginalTitle();
+        vReleaseDate = mMovieInfo.getvReleaseDate();
         vImageThumbPath = mMovieInfo.getvImageThumbPath();
         vImagePath = mMovieInfo.getvImagePath();
         vPlotSynopsis = mMovieInfo.getvPlotSynopsis();
@@ -45,6 +49,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Context context = mMovieThumbnail.getContext();
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + vImageThumbPath).into(mMovieThumbnail);
         mMovieTitle.setText(vOriginalTitle);
+        mMovieReleaseDate.append(vReleaseDate);
         mMoviePlot.append(vPlotSynopsis);
         mMovieRating.append(Double.toString(vUserRating));
     }

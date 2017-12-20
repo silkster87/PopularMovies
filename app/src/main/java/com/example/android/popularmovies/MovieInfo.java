@@ -12,14 +12,16 @@ import android.os.Parcelable;
 public class MovieInfo implements Parcelable{
 
     private String vOriginalTitle;
+    private String vReleaseDate;
     private String vImageThumbPath;
     private String vImagePath;
     private String vPlotSynopsis;
     private Double vUserRating;
 
-    public MovieInfo(String originalTitle, String imageThumbPath, String imagePath, String plotSynopsis, Double userRating){
+    public MovieInfo(String originalTitle, String releaseDate, String imageThumbPath, String imagePath, String plotSynopsis, Double userRating){
 
         this.vOriginalTitle = originalTitle;
+        this.vReleaseDate = releaseDate;
         this.vImageThumbPath = imageThumbPath;
         this.vImagePath = imagePath;
         this.vPlotSynopsis = plotSynopsis;
@@ -29,6 +31,8 @@ public class MovieInfo implements Parcelable{
     public String getvOriginalTitle() {
         return vOriginalTitle;
     }
+
+    public String getvReleaseDate() { return vReleaseDate; }
 
     public String getvImageThumbPath() {
         return vImageThumbPath;
@@ -51,6 +55,7 @@ public class MovieInfo implements Parcelable{
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(vOriginalTitle);
+        out.writeString(vReleaseDate);
         out.writeString(vImageThumbPath);
         out.writeString(vImagePath);
         out.writeString(vPlotSynopsis);
@@ -60,6 +65,7 @@ public class MovieInfo implements Parcelable{
     //Retrieve values originally wrote into the Parcel - only CREATOR field can access
     private MovieInfo(Parcel in){
         vOriginalTitle = in.readString();
+        vReleaseDate = in.readString();
         vImageThumbPath = in.readString();
         vImagePath = in.readString();
         vPlotSynopsis = in.readString();

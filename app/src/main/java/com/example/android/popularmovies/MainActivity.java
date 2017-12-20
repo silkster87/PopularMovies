@@ -1,24 +1,20 @@
 package com.example.android.popularmovies;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-//import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 
 import com.example.android.popularmovies.utilities.NetworkUtils;
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private MovieInfo[] movieInfos;
 
-  //  public List<MovieInfo> items;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mErrorMessage = (TextView) findViewById(R.id.error_msg);
 
         int numberOfColumns = 4;
-
-        //LinearLayoutManager layoutManager =
-        //        new LinearLayoutManager(this, numberOfColumns, false);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
@@ -131,12 +124,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         for(int i = 0; i < simpleJsonMovieData.length();i++){
 
                             String vOriginalTitle = simpleJsonMovieData.getJSONObject(i).getString("original_title");
+                            String vReleaseDate = simpleJsonMovieData.getJSONObject(i).getString("release_date");
                             String vImageThumbPath = simpleJsonMovieData.getJSONObject(i).getString("backdrop_path");
                             String vImagePath = simpleJsonMovieData.getJSONObject(i).getString("poster_path");
                             String vPlotSynopsis = simpleJsonMovieData.getJSONObject(i).getString("overview");
                             Double vUserRating = simpleJsonMovieData.getJSONObject(i).getDouble("vote_average");
 
-                            MovieInfo vMovieInfo = new MovieInfo(vOriginalTitle, vImageThumbPath, vImagePath, vPlotSynopsis, vUserRating);
+                            MovieInfo vMovieInfo = new MovieInfo(vOriginalTitle, vReleaseDate, vImageThumbPath, vImagePath, vPlotSynopsis, vUserRating);
 
                             movieInfoArray[i] = vMovieInfo;
                         }
