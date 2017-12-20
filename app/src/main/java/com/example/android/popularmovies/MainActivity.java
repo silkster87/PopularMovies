@@ -1,7 +1,10 @@
 package com.example.android.popularmovies;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -29,25 +32,24 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<MovieInfo[]>{
 
     private RecyclerView mRecyclerView;
-    
     private TextView mErrorMessage;
-
     private static final int MOVIEDB_QUERY_LOADER = 22;
-
     private MoviesAdapter mMoviesAdapter;
-
     private ProgressBar mLoadingIndicator;
-
     public String movieEndpoint = null;
-
     private MovieInfo[] movieInfos;
-
+    public static final String PREFS_NAME = "Settings_Prefs";
+    public SharedPreferences settings;
+    private static final String PREFS_KEY = "Prefs_String";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Sharedpreferences to get preference from specified file
+        settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_movies);
 
@@ -110,7 +112,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public MovieInfo[] loadInBackground() {
 
-                URL movieDBURL =  NetworkUtils.buildUrl(movieEndpoint); //By default we are uploading most popular movies
+                movieEndpoint = getValue(MainActivity.this); //Get value in sharedPreferences
+
+                if(movieEndpoint == null){
+                    movieEndpoint = "/movie/popular?"; //By default we are uploading most popular movies
+                }
+
+                URL movieDBURL =  NetworkUtils.buildUrl(movieEndpoint);
 
                 MovieInfo[] movieInfoArray;
                 try {
@@ -194,14 +202,31 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         int menuItemSelected = item.getItemId();
         if (menuItemSelected == R.id.high_rated){
             movieEndpoint = "/movie/top_rated?"; //user has selected sort by highest rated
+            save(getApplicationContext(), "/movie/top_rated?" );
         } else if (menuItemSelected == R.id.popular_movies){
             movieEndpoint = "/movie/popular?";
+            save(getApplicationContext(), "/movie/popular?" );
         }
         //Need to get AsyncTask to run again to fetch new query
         LoaderManager.LoaderCallbacks<MovieInfo[]> callback = MainActivity.this;
         Bundle bundleForLoader = null;
         getSupportLoaderManager().restartLoader(MOVIEDB_QUERY_LOADER, bundleForLoader, callback);
         return super.onOptionsItemSelected(item);
+    }
+
+    public void save(Context context, String text){
+        SharedPreferences.Editor editor;
+        settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        editor = settings.edit();
+        editor.putString(PREFS_KEY, text);
+        editor.commit();
+    }
+
+    public String getValue(Context context){
+        String text;
+        settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        text = settings.getString(PREFS_KEY, null);
+        return  text;
     }
 
 
