@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Sort by Popular Movies"
+        android:title="@string/Sort_popular_movies"
         android:orderInCategory="1"
         app:showAsAction="collapseActionView"
         android:id="@+id/popular_movies" />
 
     <item
-        android:title="Sort by Highest Rated"
+        android:title="@string/Sort_high_rated"
         android:orderInCategory="2"
         app:showAsAction="collapseActionView"
         android:id="@+id/high_rated" />

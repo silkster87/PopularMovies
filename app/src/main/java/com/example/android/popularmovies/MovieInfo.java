@@ -11,12 +11,12 @@ import android.os.Parcelable;
 
 public class MovieInfo implements Parcelable{
 
-    private String vOriginalTitle;
-    private String vReleaseDate;
-    private String vImageThumbPath;
-    private String vImagePath;
-    private String vPlotSynopsis;
-    private Double vUserRating;
+    private final String vOriginalTitle;
+    private final String vReleaseDate;
+    private final String vImageThumbPath;
+    private final String vImagePath;
+    private final String vPlotSynopsis;
+    private final Double vUserRating;
 
     public MovieInfo(String originalTitle, String releaseDate, String imageThumbPath, String imagePath, String plotSynopsis, Double userRating){
 

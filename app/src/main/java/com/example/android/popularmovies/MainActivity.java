@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int MOVIEDB_QUERY_LOADER = 22;
     private MoviesAdapter mMoviesAdapter;
     private ProgressBar mLoadingIndicator;
-    public String movieEndpoint = null;
+    private String movieEndpoint = null;
     private MovieInfo[] movieInfos;
-    public static final String PREFS_NAME = "Settings_Prefs";
-    public SharedPreferences settings;
+    private static final String PREFS_NAME = "Settings_Prefs";
+    private SharedPreferences settings;
     private static final String PREFS_KEY = "Prefs_String";
 
 
@@ -81,13 +81,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        int loaderID = MOVIEDB_QUERY_LOADER;
-
         LoaderManager.LoaderCallbacks<MovieInfo[]> callback = MainActivity.this;
 
-        Bundle bundleForLoader = null;
-
-        getSupportLoaderManager().initLoader(loaderID, bundleForLoader, callback);
+        getSupportLoaderManager().initLoader(MOVIEDB_QUERY_LOADER, null, callback);
 
     }
 
@@ -126,7 +122,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         JSONArray simpleJsonMovieData =
                                 OpenMovieJsonUtils.getJsonArrayOfMovieResults(MainActivity.this, jsonMovieDataResponse);
 
-                        movieInfoArray = new MovieInfo[simpleJsonMovieData.length()];
+                    if (simpleJsonMovieData == null) throw new AssertionError();
+                    movieInfoArray = new MovieInfo[simpleJsonMovieData.length()];
 
                         for(int i = 0; i < simpleJsonMovieData.length();i++){
 
@@ -208,12 +205,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         //Need to get AsyncTask to run again to fetch new query
         LoaderManager.LoaderCallbacks<MovieInfo[]> callback = MainActivity.this;
-        Bundle bundleForLoader = null;
-        getSupportLoaderManager().restartLoader(MOVIEDB_QUERY_LOADER, bundleForLoader, callback);
+        getSupportLoaderManager().restartLoader(MOVIEDB_QUERY_LOADER, null, callback);
         return super.onOptionsItemSelected(item);
     }
 
-    public void save(Context context, String text){ //save method for shardPreferences when user chooses settings
+    private void save(Context context, String text){ //save method for shardPreferences when user chooses settings
         SharedPreferences.Editor editor;
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         editor = settings.edit();
@@ -221,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         editor.apply();
     }
 
-    public String getValue(Context context){ //getValue method for sharedPreferences to retrieve settings
+    private String getValue(Context context){ //getValue method for sharedPreferences to retrieve settings
         String text;
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         text = settings.getString(PREFS_KEY, null);
