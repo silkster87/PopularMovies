@@ -2,4 +2,7 @@
     <string name="app_name">Popular Movies</string>
     <string name="error_message">An error has occurred. Please try again.</string>
 
+    <string name="Release_date">Release Date: </string>
+    <string name="Av_Rating">Average Rating: </string>
+    <string name="Plot">Plot Synopsis: \n\n</string>
 </resources>
