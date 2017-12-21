@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:contentDescription="This is a thumbnail of Film."
+            android:contentDescription="@string/thumbnail_desc"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:scaleType="centerCrop"

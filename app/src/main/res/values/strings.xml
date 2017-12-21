@@ -8,4 +8,7 @@
 
     <string name="Sort_popular_movies">Sort by Popular Movies</string>
     <string name="Sort_high_rated">Sort by Highest Rated</string>
+
+    <string name="thumbnail_desc">This is a thumbnail of Film.</string>
+    <string name="moviePic_desc">Picture of Movie Item</string>
 </resources>
