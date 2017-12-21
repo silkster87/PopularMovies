@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         editor = settings.edit();
         editor.putString(PREFS_KEY, text);
-        editor.commit();
+        editor.apply();
     }
 
     public String getValue(Context context){
