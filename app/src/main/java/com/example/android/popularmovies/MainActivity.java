@@ -25,7 +25,11 @@ import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
 import org.json.JSONArray;
 
 import java.net.URL;
-
+/* This is a Popular Movies app that will query data off theMovieDB using an API key. The results will
+be displayed in a Recycler View in a Grid layout in pictures. The user can click onto a picture of a
+movie to get more details. The grid view can be sorted out by most popular or highest rated.
+*
+* */
 
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<MovieInfo[]>{
