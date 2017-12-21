@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void deliverResult(MovieInfo[] data) {
-                movieInfos = data;
+                 movieInfos = data;
                 super.deliverResult(data);
             }
         };
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader<MovieInfo[]> loader, MovieInfo[] data) {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mMoviesAdapter.setMovieData(data); //The method setMovieData will load up images.
-
+ 
         if(null == data){
             showErrorMessage();
         }else{
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             movieEndpoint = "/movie/top_rated?"; //user has selected sort by highest rated
             save(getApplicationContext(), "/movie/top_rated?" );
         } else if (menuItemSelected == R.id.popular_movies){
-            movieEndpoint = "/movie/popular?";
+            movieEndpoint = "/movie/popular?"; //user has selected sort by most popular
             save(getApplicationContext(), "/movie/popular?" );
         }
         //Need to get AsyncTask to run again to fetch new query
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
-    public void save(Context context, String text){
+    public void save(Context context, String text){ //save method for shardPreferences when user chooses settings
         SharedPreferences.Editor editor;
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         editor = settings.edit();
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         editor.commit();
     }
 
-    public String getValue(Context context){
+    public String getValue(Context context){ //getValue method for sharedPreferences to retrieve settings
         String text;
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         text = settings.getString(PREFS_KEY, null);
