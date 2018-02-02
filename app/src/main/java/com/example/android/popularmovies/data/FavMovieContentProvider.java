@@ -118,7 +118,7 @@ public class FavMovieContentProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
        final SQLiteDatabase db = mFavMoveDbHelper.getWritableDatabase();
-
+        //we only want to delete one item when user unchecks favourite movie
        int match = sUriMatcher.match(uri);
        int itemsDeleted;
 
@@ -140,6 +140,23 @@ public class FavMovieContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+        int favMovieItemsUpdated;
+
+        int match = sUriMatcher.match(uri);
+
+        switch(match){
+            case(DIRECTORY_FAVMOVIES_ITEM):
+                String id = uri.getPathSegments().get(1);
+                favMovieItemsUpdated = mFavMoveDbHelper.getWritableDatabase().update(FavMovieContract.FavMovieEntry.TABLE_NAME, contentValues,
+                        "_id=?", new String[]{id});
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+
+            if(favMovieItemsUpdated !=0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return favMovieItemsUpdated;
     }
 }
