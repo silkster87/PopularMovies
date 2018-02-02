@@ -1,8 +1,12 @@
 package com.example.android.popularmovies.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,15 +16,58 @@ import android.support.annotation.Nullable;
  */
 
 public class FavMovieContentProvider extends ContentProvider {
+
+    private FavMovieDbHelper mFavMoveDbHelper;
+
+    public static final int DIRECTORY_FAVMOVIES = 100;
+
+    public static final int DIRECTORY_FAVMOVIES_ITEM = 101;
+
+    public static UriMatcher sUriMatcher = buildUriMatcher();
+
+    private static UriMatcher buildUriMatcher() {
+
+        UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+        sUriMatcher.addURI(FavMovieContract.CONTENT_AUTHORITY, FavMovieContract.FavMovieEntry.TABLE_NAME, DIRECTORY_FAVMOVIES);
+        sUriMatcher.addURI(FavMovieContract.CONTENT_AUTHORITY, FavMovieContract.FavMovieEntry.TABLE_NAME + "/#", DIRECTORY_FAVMOVIES_ITEM);
+
+        return sUriMatcher;
+    }
+
     @Override
     public boolean onCreate() {
+        Context context = getContext();
+        mFavMoveDbHelper = new FavMovieDbHelper(context);
         return false;
     }
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
-        return null;
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
+                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+
+        final SQLiteDatabase db = mFavMoveDbHelper.getReadableDatabase();
+
+        int match = sUriMatcher.match(uri);
+
+        Cursor retCursor;
+
+        switch (match){
+            case(DIRECTORY_FAVMOVIES):
+                retCursor = db.query(FavMovieContract.FavMovieEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                return retCursor;
+
+            case(DIRECTORY_FAVMOVIES_ITEM):
+                retCursor = db.query(FavMovieContract.FavMovieEntry.TABLE_NAME, projection,
+                        FavMovieContract.FavMovieEntry._ID + " = ?", new String[]{String.valueOf(ContentUris.parseId(uri))},
+                null, null, sortOrder);
+                return retCursor;
+
+                default:
+                throw new UnsupportedOperationException("Unknown Uri " + uri);
+        }
     }
 
     @Nullable
