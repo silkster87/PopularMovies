@@ -117,7 +117,25 @@ public class FavMovieContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+       final SQLiteDatabase db = mFavMoveDbHelper.getWritableDatabase();
+
+       int match = sUriMatcher.match(uri);
+       int itemsDeleted;
+
+       switch(match){
+           case(DIRECTORY_FAVMOVIES_ITEM):
+               String id = uri.getPathSegments().get(1);
+               itemsDeleted = db.delete(FavMovieContract.FavMovieEntry.TABLE_NAME, "_id=?",
+                       new String[]{id});
+               break;
+           default:
+               throw new UnsupportedOperationException("Unknown Uri " + uri);
+       }
+
+       if(itemsDeleted !=0){
+           getContext().getContentResolver().notifyChange(uri, null);
+       }
+        return itemsDeleted;
     }
 
     @Override
