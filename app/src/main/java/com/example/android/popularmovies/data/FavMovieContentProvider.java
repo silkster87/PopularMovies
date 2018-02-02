@@ -73,13 +73,46 @@ public class FavMovieContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+
+        switch(match){
+            case DIRECTORY_FAVMOVIES:{
+                return FavMovieContract.FavMovieEntry.CONTENT_DIR_TYPE;
+            }
+            case DIRECTORY_FAVMOVIES_ITEM:{
+                return FavMovieContract.FavMovieEntry.CONTENT_ITEM_TYPE;
+            }
+            default:{
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
     }
 
     @Nullable
+
+
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
+        final SQLiteDatabase db = mFavMoveDbHelper.getWritableDatabase();
+        Uri returnUri;
+        //inserting a single row of data when user favourited a movie
+        switch (sUriMatcher.match(uri)){
+            case DIRECTORY_FAVMOVIES_ITEM: {
+                long _id = db.insert(FavMovieContract.FavMovieEntry.TABLE_NAME, null, contentValues);
+
+                if(_id > 0){
+                    returnUri = ContentUris.withAppendedId(FavMovieContract.BASE_CONTENT_URI, _id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into: " + uri);
+                }
+                break;
+            }
+            default:{
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnUri;
     }
 
     @Override
