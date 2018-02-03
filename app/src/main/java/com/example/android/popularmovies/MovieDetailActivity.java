@@ -3,10 +3,12 @@ package com.example.android.popularmovies;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -20,7 +22,7 @@ import com.squareup.picasso.Picasso;
 //When user clicks on a movie, this will set the view for more info on that movie.
 public class MovieDetailActivity extends AppCompatActivity {
 
-
+    private static final String TAG = MovieDetailActivity.class.getSimpleName();
     private int vMovieID;
     private String vOriginalTitle;
     private String vReleaseDate;
@@ -34,6 +36,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mMovieReleaseDate;
     private TextView mMoviePlot;
     private TextView mMovieRating;
+    private CheckBox mFavMovieCheckBox;
 
     private MovieInfo mMovieInfo;
 
@@ -49,6 +52,18 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMovieReleaseDate = (TextView) findViewById(R.id.tv_movie_release_date);
         mMoviePlot = (TextView) findViewById(R.id.tv_movie_plot);
         mMovieRating = (TextView) findViewById(R.id.tv_movie_rating);
+        mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
+
+        //find out if this particular movie has been added to favourite movies database if it is
+        //then the mFavMovieCheckBox needs to be checked
+
+        boolean isFavMovie = findIfFavMovie();
+
+        if(isFavMovie){
+            mFavMovieCheckBox.setChecked(true);
+        }else{
+            mFavMovieCheckBox.setChecked(false);
+        }
 
         //Get the data from the MovieInfo object from parcelable
         vMovieID = mMovieInfo.getvMovieID();
@@ -69,6 +84,26 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMovieRating.append(Double.toString(vUserRating));
     }
 
+    //This method finds out if the movie displayed is in the fav Movie database
+    private boolean findIfFavMovie() {
+
+        try{
+           Cursor cursor = getContentResolver().query(FavMovieContract.FavMovieEntry.CONTENT_URI,
+                    new String[]{FavMovieContract.FavMovieEntry.MOVIE_ID},
+                   "=?",
+                    new String[]{Integer.toString(vMovieID)},
+                   null,null);
+           if(cursor != null){
+               return true;
+           }
+        } catch (Exception e){
+            Log.e(TAG, "Unable to query data or not favourited movie.");
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
     public void onFavCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 
@@ -78,9 +113,13 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         } else{
             //delete movie from database
-            getContentResolver().delete(FavMovieContract.FavMovieEntry.CONTENT_URI, "MOVIE_ID=?",
+            int itemsDeleted = getContentResolver().delete(FavMovieContract.FavMovieEntry.CONTENT_URI, "MOVIE_ID=?",
                     new String[]{Integer.toString(vMovieID)});
 
+            if(itemsDeleted != 0){
+                Toast.makeText(getBaseContext(), Integer.toString(itemsDeleted) + " item deleted",
+                        Toast.LENGTH_LONG).show();
+            }
 
         }
     }
