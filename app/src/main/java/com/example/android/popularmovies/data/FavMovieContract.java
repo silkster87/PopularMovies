@@ -15,8 +15,13 @@ public class FavMovieContract {
 
             public static final class FavMovieEntry implements BaseColumns{
                 public static final String TABLE_NAME = "Movie Favourites";
-                public static final String TITLE = "Movie Title";
+                public static final String MOVIE_ID = "Movie ID";
+                public static final String ORIGINAL_TITLE = "Movie Title";
+                public static final String RELEASE_DATE = "Release Date";
+                public static final String MOVIE_IMAGE_THUMB_PATH = "Movie Image Thumb Path";
                 public static final String MOVIE_IMAGE_PATH = "Movie Image Path";
+                public static final String PLOT_SYNOPSIS = "Plot Synopsis";
+                public static final String USER_RATING = "User Rating";
 
                 // create content uri
                 public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
