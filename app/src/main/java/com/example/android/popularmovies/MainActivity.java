@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                         for(int i = 0; i < simpleJsonMovieData.length();i++){
 
+                            String vMovieID = simpleJsonMovieData.getJSONObject(i).getString("id");
                             String vOriginalTitle = simpleJsonMovieData.getJSONObject(i).getString("original_title");
                             String vReleaseDate = simpleJsonMovieData.getJSONObject(i).getString("release_date");
                             String vImageThumbPath = simpleJsonMovieData.getJSONObject(i).getString("backdrop_path");
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                             String vPlotSynopsis = simpleJsonMovieData.getJSONObject(i).getString("overview");
                             Double vUserRating = simpleJsonMovieData.getJSONObject(i).getDouble("vote_average");
 
-                            MovieInfo vMovieInfo = new MovieInfo(vOriginalTitle, vReleaseDate, vImageThumbPath, vImagePath, vPlotSynopsis, vUserRating);
+                            MovieInfo vMovieInfo = new MovieInfo(vMovieID, vOriginalTitle, vReleaseDate, vImageThumbPath, vImagePath, vPlotSynopsis, vUserRating);
 
                             movieInfoArray[i] = vMovieInfo;
                         }
