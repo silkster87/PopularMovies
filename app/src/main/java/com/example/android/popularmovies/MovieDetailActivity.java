@@ -36,7 +36,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mMovieRating;
 
     private MovieInfo mMovieInfo;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +78,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         } else{
             //delete movie from database
+            getContentResolver().delete(FavMovieContract.FavMovieEntry.CONTENT_URI, "MOVIE_ID=?",
+                    new String[]{Integer.toString(vMovieID)});
+
+
         }
     }
 

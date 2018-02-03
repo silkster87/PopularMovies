@@ -15,7 +15,7 @@ public class FavMovieContract {
 
             public static final class FavMovieEntry implements BaseColumns{
                 public static final String TABLE_NAME = "Movie Favourites";
-                public static final String MOVIE_ID = "Movie ID";
+                public static final String MOVIE_ID = "Movie_ID";
                 public static final String ORIGINAL_TITLE = "Movie Title";
                 public static final String RELEASE_DATE = "Release Date";
                 public static final String MOVIE_IMAGE_THUMB_PATH = "Movie Image Thumb Path";
