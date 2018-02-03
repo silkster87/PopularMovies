@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                         for(int i = 0; i < simpleJsonMovieData.length();i++){
 
-                            String vMovieID = simpleJsonMovieData.getJSONObject(i).getString("id");
+                            int vMovieID = simpleJsonMovieData.getJSONObject(i).getInt("id");
                             String vOriginalTitle = simpleJsonMovieData.getJSONObject(i).getString("original_title");
                             String vReleaseDate = simpleJsonMovieData.getJSONObject(i).getString("release_date");
                             String vImageThumbPath = simpleJsonMovieData.getJSONObject(i).getString("backdrop_path");

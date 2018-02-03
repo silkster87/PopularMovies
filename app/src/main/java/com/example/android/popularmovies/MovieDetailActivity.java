@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.data.FavMovieContract;
+import com.example.android.popularmovies.data.FavMovieDbHelper;
 import com.squareup.picasso.Picasso;
 
 //When user clicks on a movie, this will set the view for more info on that movie.
@@ -33,12 +34,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mMovieRating;
 
     private MovieInfo mMovieInfo;
+    private FavMovieDbHelper mFavMovieDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
+        mFavMovieDbHelper = new FavMovieDbHelper(this);
+        db = mFavMovieDbHelper.getWritableDatabase();
 
         mMovieThumbnail = (ImageView) findViewById(R.id.tv_movie_thumbnail);
         mMovieTitle = (TextView) findViewById(R.id.tv_movie_title);

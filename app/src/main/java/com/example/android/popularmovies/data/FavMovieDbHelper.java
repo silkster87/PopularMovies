@@ -26,8 +26,13 @@ public class FavMovieDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_FAVMOVIE_TABLE = "CREATE TABLE " +
                 FavMovieContract.FavMovieEntry.TABLE_NAME + "( " +
                 FavMovieContract.FavMovieEntry._ID +"INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                FavMovieContract.FavMovieEntry.TITLE + "TEXT NOT NULL, " +
-                FavMovieContract.FavMovieEntry.MOVIE_IMAGE_PATH + "TEXT NOT NULL, " + " );";
+                FavMovieContract.FavMovieEntry.MOVIE_ID + "INTEGER NOT NULL, " +
+                FavMovieContract.FavMovieEntry.ORIGINAL_TITLE + "TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.RELEASE_DATE + "TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.MOVIE_IMAGE_THUMB_PATH + "TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.MOVIE_IMAGE_PATH + "TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.PLOT_SYNOPSIS + "TEXT NOT NULL" +
+                " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_FAVMOVIE_TABLE);
     }
