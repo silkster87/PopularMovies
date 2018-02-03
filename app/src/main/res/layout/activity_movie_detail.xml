@@ -42,6 +42,13 @@
             android:textStyle="bold"
             android:id="@+id/tv_movie_rating"/>
 
+        <CheckBox
+            android:id="@+id/checkbox_favMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fav_movie"
+            android:onClick="onFavCheckboxClicked"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

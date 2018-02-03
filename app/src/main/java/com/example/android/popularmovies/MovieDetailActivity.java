@@ -3,6 +3,8 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,5 +54,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMovieReleaseDate.append(vReleaseDate);
         mMoviePlot.append(vPlotSynopsis);
         mMovieRating.append(Double.toString(vUserRating));
+    }
+
+    public void onFavCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+
+        if(checked){
+            //add movie to favourite movie DB
+        } else{
+            //delete movie from database
+        }
     }
 }
