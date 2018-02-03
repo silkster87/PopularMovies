@@ -15,7 +15,7 @@ public class FavMovieDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "favMovies.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public FavMovieDbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,14 +24,15 @@ public class FavMovieDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_FAVMOVIE_TABLE = "CREATE TABLE " +
-                FavMovieContract.FavMovieEntry.TABLE_NAME + "( " +
-                FavMovieContract.FavMovieEntry._ID +"INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                FavMovieContract.FavMovieEntry.MOVIE_ID + "INTEGER NOT NULL, " +
-                FavMovieContract.FavMovieEntry.ORIGINAL_TITLE + "TEXT NOT NULL, " +
-                FavMovieContract.FavMovieEntry.RELEASE_DATE + "TEXT NOT NULL, " +
-                FavMovieContract.FavMovieEntry.MOVIE_IMAGE_THUMB_PATH + "TEXT NOT NULL, " +
-                FavMovieContract.FavMovieEntry.MOVIE_IMAGE_PATH + "TEXT NOT NULL, " +
-                FavMovieContract.FavMovieEntry.PLOT_SYNOPSIS + "TEXT NOT NULL" +
+                FavMovieContract.FavMovieEntry.TABLE_NAME + " ( " +
+                FavMovieContract.FavMovieEntry._ID +" INTEGER PRIMARY KEY, " +
+                FavMovieContract.FavMovieEntry.MOVIE_ID + " INTEGER NOT NULL, " +
+                FavMovieContract.FavMovieEntry.ORIGINAL_TITLE + " TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.RELEASE_DATE + " TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.MOVIE_IMAGE_THUMB_PATH + " TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.MOVIE_IMAGE_PATH + " TEXT NOT NULL, " +
+                FavMovieContract.FavMovieEntry.PLOT_SYNOPSIS + " TEXT NOT NULL," +
+                FavMovieContract.FavMovieEntry.USER_RATING + " TEXT NOT NULL" +
                 " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_FAVMOVIE_TABLE);

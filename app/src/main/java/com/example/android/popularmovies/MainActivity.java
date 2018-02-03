@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
+import com.facebook.stetho.Stetho;
 
 import org.json.JSONArray;
 
@@ -50,6 +51,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build());
+
+
 
         //Sharedpreferences to get preference from specified file
         settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);

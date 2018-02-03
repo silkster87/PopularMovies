@@ -29,8 +29,8 @@ public class FavMovieContentProvider extends ContentProvider {
 
         UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-        sUriMatcher.addURI(FavMovieContract.CONTENT_AUTHORITY, FavMovieContract.FavMovieEntry.TABLE_NAME, DIRECTORY_FAVMOVIES);
-        sUriMatcher.addURI(FavMovieContract.CONTENT_AUTHORITY, FavMovieContract.FavMovieEntry.TABLE_NAME + "/#", DIRECTORY_FAVMOVIES_ITEM);
+        sUriMatcher.addURI(FavMovieContract.CONTENT_AUTHORITY, FavMovieContract.PATH_MOVIES, DIRECTORY_FAVMOVIES);
+        sUriMatcher.addURI(FavMovieContract.CONTENT_AUTHORITY, FavMovieContract.PATH_MOVIES + "/#", DIRECTORY_FAVMOVIES_ITEM);
 
         return sUriMatcher;
     }
@@ -97,7 +97,7 @@ public class FavMovieContentProvider extends ContentProvider {
         Uri returnUri;
         //inserting a single row of data when user favourited a movie
         switch (sUriMatcher.match(uri)){
-            case DIRECTORY_FAVMOVIES_ITEM: {
+            case DIRECTORY_FAVMOVIES: {
                 long _id = db.insert(FavMovieContract.FavMovieEntry.TABLE_NAME, null, contentValues);
 
                 if(_id > 0){

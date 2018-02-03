@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.data.FavMovieContract;
+import com.example.android.popularmovies.data.FavMovieContract.FavMovieEntry;
 import com.example.android.popularmovies.data.FavMovieDbHelper;
 import com.squareup.picasso.Picasso;
 
@@ -57,14 +58,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         //find out if this particular movie has been added to favourite movies database if it is
         //then the mFavMovieCheckBox needs to be checked
 
-        boolean isFavMovie = findIfFavMovie();
-
-        if(isFavMovie){
-            mFavMovieCheckBox.setChecked(true);
-        }else{
-            mFavMovieCheckBox.setChecked(false);
-        }
-
         //Get the data from the MovieInfo object from parcelable
         vMovieID = mMovieInfo.getvMovieID();
         vOriginalTitle = mMovieInfo.getvOriginalTitle();
@@ -82,14 +75,22 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMovieReleaseDate.append(vReleaseDate);
         mMoviePlot.append(vPlotSynopsis);
         mMovieRating.append(Double.toString(vUserRating));
+
+        boolean isFavMovie = findIfFavMovie();
+
+        if(isFavMovie){
+            mFavMovieCheckBox.setChecked(true);
+        }else{
+            mFavMovieCheckBox.setChecked(false);
+        }
     }
 
     //This method finds out if the movie displayed is in the fav Movie database
     private boolean findIfFavMovie() {
 
         try{
-           Cursor cursor = getContentResolver().query(FavMovieContract.FavMovieEntry.CONTENT_URI,
-                    new String[]{FavMovieContract.FavMovieEntry.MOVIE_ID},
+           Cursor cursor = getContentResolver().query(FavMovieEntry.CONTENT_URI,
+                    new String[]{FavMovieEntry.MOVIE_ID},
                    "=?",
                     new String[]{Integer.toString(vMovieID)},
                    null,null);
@@ -113,7 +114,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         } else{
             //delete movie from database
-            int itemsDeleted = getContentResolver().delete(FavMovieContract.FavMovieEntry.CONTENT_URI, "MOVIE_ID=?",
+            int itemsDeleted = getContentResolver().delete(FavMovieEntry.CONTENT_URI, "MOVIE_ID=?",
                     new String[]{Integer.toString(vMovieID)});
 
             if(itemsDeleted != 0){
@@ -129,17 +130,17 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         ContentValues cv = new ContentValues();
 
-        cv.put(FavMovieContract.FavMovieEntry.MOVIE_ID, movieID);
-        cv.put(FavMovieContract.FavMovieEntry.ORIGINAL_TITLE, originalTitle);
-        cv.put(FavMovieContract.FavMovieEntry.RELEASE_DATE, releaseDate);
-        cv.put(FavMovieContract.FavMovieEntry.MOVIE_IMAGE_THUMB_PATH, imageThumbPath);
-        cv.put(FavMovieContract.FavMovieEntry.MOVIE_IMAGE_PATH, imagePath);
-        cv.put(FavMovieContract.FavMovieEntry.PLOT_SYNOPSIS, plotSynopsis);
-        cv.put(FavMovieContract.FavMovieEntry.USER_RATING, userRating);
+        cv.put(FavMovieEntry.MOVIE_ID, movieID);
+        cv.put(FavMovieEntry.ORIGINAL_TITLE, originalTitle);
+        cv.put(FavMovieEntry.RELEASE_DATE, releaseDate);
+        cv.put(FavMovieEntry.MOVIE_IMAGE_THUMB_PATH, imageThumbPath);
+        cv.put(FavMovieEntry.MOVIE_IMAGE_PATH, imagePath);
+        cv.put(FavMovieEntry.PLOT_SYNOPSIS, plotSynopsis);
+        cv.put(FavMovieEntry.USER_RATING, Double.toString(userRating));
 
         ContentResolver resolver = getContentResolver();
 
-        Uri insertedUri = resolver.insert(FavMovieContract.FavMovieEntry.CONTENT_URI, cv);
+        Uri insertedUri = resolver.insert(FavMovieEntry.CONTENT_URI, cv);
 
         if(insertedUri != null){
             Toast.makeText(getBaseContext(), insertedUri.toString(), Toast.LENGTH_LONG).show();
