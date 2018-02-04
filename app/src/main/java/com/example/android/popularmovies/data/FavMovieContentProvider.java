@@ -55,14 +55,10 @@ public class FavMovieContentProvider extends ContentProvider {
 
         switch (match){
             case(DIRECTORY_FAVMOVIES):
-                retCursor = db.query(FavMovieContract.FavMovieEntry.TABLE_NAME, projection, selection, selectionArgs,
-                        null, null, sortOrder);
-                return retCursor;
-
-            case(DIRECTORY_FAVMOVIES_ITEM):
+                String mSelection = FavMovieContract.FavMovieEntry.MOVIE_ID + "=?";
                 retCursor = db.query(FavMovieContract.FavMovieEntry.TABLE_NAME, projection,
-                        FavMovieContract.FavMovieEntry._ID + " = ?", new String[]{String.valueOf(ContentUris.parseId(uri))},
-                null, null, sortOrder);
+                        mSelection, selectionArgs,
+                        null, null, sortOrder);
                 return retCursor;
 
                 default:

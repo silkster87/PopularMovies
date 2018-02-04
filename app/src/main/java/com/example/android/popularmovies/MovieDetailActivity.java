@@ -89,20 +89,23 @@ public class MovieDetailActivity extends AppCompatActivity {
     private boolean findIfFavMovie() {
 
         try{
-           Cursor cursor = getContentResolver().query(FavMovieEntry.CONTENT_URI,
-                    new String[]{FavMovieEntry.MOVIE_ID},
-                   "=?",
-                    new String[]{Integer.toString(vMovieID)},
+           Cursor cursor = getContentResolver().query(FavMovieEntry.CONTENT_URI, null,
+                   null,
+                   new String[]{Integer.toString(vMovieID)},
                    null,null);
-           if(cursor != null){
+           if(cursor.getCount() != 0) {
                return true;
+           } else {
+               Toast.makeText(getBaseContext(), "Not in fav movie DB", Toast.LENGTH_LONG).show();
+               return false;
+
            }
         } catch (Exception e){
+            Toast.makeText(getBaseContext(), "query was wrong", Toast.LENGTH_LONG).show();
             Log.e(TAG, "Unable to query data or not favourited movie.");
             e.printStackTrace();
             return false;
         }
-        return false;
     }
 
     public void onFavCheckboxClicked(View view) {
