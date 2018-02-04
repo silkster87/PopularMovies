@@ -121,7 +121,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     new String[]{Integer.toString(vMovieID)});
 
             if(itemsDeleted != 0){
-                Toast.makeText(getBaseContext(), Integer.toString(itemsDeleted) + " item deleted",
+                Toast.makeText(getBaseContext(), vOriginalTitle + " removed from favourites.",
                         Toast.LENGTH_LONG).show();
             }
 
@@ -146,7 +146,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Uri insertedUri = resolver.insert(FavMovieEntry.CONTENT_URI, cv);
 
         if(insertedUri != null){
-            Toast.makeText(getBaseContext(), insertedUri.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), originalTitle + " added to Favourites. ", Toast.LENGTH_LONG).show();
         }
 
     }
