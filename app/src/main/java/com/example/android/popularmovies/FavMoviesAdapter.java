@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +16,22 @@ import com.squareup.picasso.Picasso;
 
 public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavMoviesAdapterViewHolder>{
 
-    private MovieInfo[] mFavMovieData;
     private final Context mContext;
+    private MovieInfo[] mMovieData;
+    private Cursor mCursor;
 
     private final OnFavMovieItemClickListener listener;
 
-    public FavMoviesAdapter(Context mContext, OnFavMovieItemClickListener listener) {
-        this.mContext = mContext;
+
+    public FavMoviesAdapter(Context context, MovieInfo[] items, OnFavMovieItemClickListener listener) {
+        this.mContext = context;
         this.listener = listener;
+        this.mMovieData = items;
+    }
+
+    public void swapCursor(Cursor newCursor) {
+        mCursor = newCursor;
+        notifyDataSetChanged();
     }
 
     public interface OnFavMovieItemClickListener {
@@ -42,9 +51,10 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
 
     @Override
     public void onBindViewHolder(FavMoviesAdapter.FavMoviesAdapterViewHolder holder, int position) {
-        holder.bind(mFavMovieData[position], listener);
 
-        String moviePicture = mFavMovieData[position].getvImagePath();
+        holder.bind(mMovieData[position], listener);
+
+        String moviePicture = mMovieData[position].getvImagePath();
 
         Context context = holder.mFavMovieImageView.getContext();
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + moviePicture)
@@ -53,8 +63,8 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
 
     @Override
     public int getItemCount() {
-        if(null == mFavMovieData) return 0;
-        return mFavMovieData.length;
+        if(mCursor.getCount() == 0) return 0;
+        return mCursor.getCount();
     }
 
     public class FavMoviesAdapterViewHolder extends RecyclerView.ViewHolder {
@@ -66,11 +76,11 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
             mFavMovieImageView = view.findViewById(R.id.tv_fav_movie_pic);
         }
 
-        public void bind(final MovieInfo mFavMovieInfo, final OnFavMovieItemClickListener listener) {
+        public void bind(final MovieInfo movieInfo, final OnFavMovieItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(mFavMovieInfo);
+                    listener.onItemClick(movieInfo);
                 }
             });
         }
