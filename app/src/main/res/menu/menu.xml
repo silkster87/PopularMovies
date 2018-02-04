@@ -14,4 +14,11 @@
         app:showAsAction="collapseActionView"
         android:id="@+id/high_rated" />
 
+    <item
+        android:title="@string/fav_movie_settings_label"
+        android:orderInCategory="3"
+        app:showAsAction="collapseActionView"
+        android:id="@+id/fav_movies"
+        />
+
 </menu>

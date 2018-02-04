@@ -12,4 +12,5 @@
     <string name="thumbnail_desc">This is a thumbnail of Film.</string>
     <string name="moviePic_desc">Picture of Movie Item</string>
     <string name="fav_movie">Add to Favorites</string>
+    <string name="fav_movie_settings_label">Favourite Movies</string>
 </resources>

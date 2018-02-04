@@ -215,6 +215,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else if (menuItemSelected == R.id.popular_movies){
             movieEndpoint = "/movie/popular?"; //user has selected sort by most popular
             save(getApplicationContext(), "/movie/popular?" );
+        } else if (menuItemSelected == R.id.fav_movies){
+            //Start new activity to FavMoviesActivity
+            Class destinationClass = FavMoviesActivity.class;
+            Context context = this;
+            Intent intentToStartFavMovies = new Intent(context, destinationClass);
+            startActivity(intentToStartFavMovies);
         }
         //Need to get AsyncTask to run again to fetch new query
         LoaderManager.LoaderCallbacks<MovieInfo[]> callback = MainActivity.this;
