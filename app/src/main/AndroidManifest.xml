@@ -18,22 +18,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MovieDetailActivity"
+        <activity
+            android:name=".MovieDetailActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
-            </activity>
+                android:value=".MainActivity" />
+        </activity>
+
+        <provider
+            android:name=".data.FavMovieContentProvider"
+            android:authorities="com.example.android.popularmovies"
+            android:exported="false" />
+
         <activity android:name=".FavMoviesActivity"
             android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FavMoviesActivity"/>
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
         </activity>
-        <provider
-            android:authorities="com.example.android.popularmovies"
-            android:name="com.example.android.popularmovies.data.FavMovieContentProvider"
-            android:exported="false"/>
     </application>
 
 </manifest>

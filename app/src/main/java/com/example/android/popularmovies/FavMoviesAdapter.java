@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 /**
- * Created by Silky on 04/02/2018.
+ * Created by Silky on 05/02/2018.
  */
 
 public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavMoviesAdapterViewHolder>{
@@ -23,47 +23,70 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
     private final OnFavMovieItemClickListener listener;
 
 
-    public FavMoviesAdapter(Context context, MovieInfo[] items, OnFavMovieItemClickListener listener) {
+    public FavMoviesAdapter(Context context, MovieInfo[] items, OnFavMovieItemClickListener listener){
         this.mContext = context;
         this.listener = listener;
         this.mMovieData = items;
     }
 
-    public void swapCursor(Cursor newCursor) {
-        mCursor = newCursor;
-        notifyDataSetChanged();
-    }
-
-    public interface OnFavMovieItemClickListener {
-        void onItemClick(MovieInfo movieInfo);
-    }
-
     @Override
     public FavMoviesAdapter.FavMoviesAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        int layoutIdForFavMovieItem = R.layout.fav_movies_item;
+       Context context = parent.getContext();
+       int layoutIdForFavMovieItem = R.layout.fav_movies_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForFavMovieItem, parent, shouldAttachToParentImmediately);
+
         return new FavMoviesAdapterViewHolder(view);
+    }
+
+    public interface OnFavMovieItemClickListener{
+        void onItemClick(MovieInfo movieInfo);
     }
 
     @Override
     public void onBindViewHolder(FavMoviesAdapter.FavMoviesAdapterViewHolder holder, int position) {
-
         holder.bind(mMovieData[position], listener);
-
         String moviePicture = mMovieData[position].getvImagePath();
 
         Context context = holder.mFavMovieImageView.getContext();
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + moviePicture)
                 .into(holder.mFavMovieImageView);
+
+    }
+
+    public void swapCursor(Cursor newCursor){
+        mCursor = newCursor;
+        putCursorDataIntoMovieInfo(mCursor, mMovieData);
+        notifyDataSetChanged();
+    }
+
+    private void putCursorDataIntoMovieInfo(Cursor mCursor, MovieInfo[] mMovieData) {
+
+        int noOfRows = mCursor.getCount();
+        mMovieData = new MovieInfo[noOfRows];
+
+        for(int i=1; i <= noOfRows ; i++){
+            mCursor.moveToPosition(i);
+            int movieID = mCursor.getInt(FavMoviesActivity.INDEX_MOVIE_ID);
+            String originalTitle = mCursor.getString(FavMoviesActivity.INDEX_ORIGINAL_TITLE);
+            String releaseDate = mCursor.getString(FavMoviesActivity.INDEX_RELEASE_DATE);
+            String imageThumbPath = mCursor.getString(FavMoviesActivity.INDEX_MOVIE_IMAGE_THUMB_PATH);
+            String imagePath = mCursor.getString(FavMoviesActivity.INDEX_MOVIE_IMAGE_PATH);
+            String plot = mCursor.getString(FavMoviesActivity.INDEX_MOVIE_PLOT_SYNOPSIS);
+            Double userRating = mCursor.getDouble(FavMoviesActivity.INDEX_USER_RATING);
+
+            MovieInfo movieInfo = new MovieInfo(movieID, originalTitle, releaseDate, imageThumbPath, imagePath, plot, userRating);
+            mMovieData[i-1] = movieInfo;
+        }
     }
 
     @Override
     public int getItemCount() {
-        if(mCursor.getCount() == 0) return 0;
+        if(mCursor.getCount() == 0) {
+            return 0;
+        }
         return mCursor.getCount();
     }
 
@@ -76,7 +99,7 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
             mFavMovieImageView = view.findViewById(R.id.tv_fav_movie_pic);
         }
 
-        public void bind(final MovieInfo movieInfo, final OnFavMovieItemClickListener listener) {
+        public void bind(final MovieInfo movieInfo, final OnFavMovieItemClickListener listener){
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {

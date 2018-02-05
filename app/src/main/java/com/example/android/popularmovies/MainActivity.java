@@ -212,9 +212,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (menuItemSelected == R.id.high_rated){
             movieEndpoint = "/movie/top_rated?"; //user has selected sort by highest rated
             save(getApplicationContext(), "/movie/top_rated?" );
+            restartLoader();
         } else if (menuItemSelected == R.id.popular_movies){
             movieEndpoint = "/movie/popular?"; //user has selected sort by most popular
             save(getApplicationContext(), "/movie/popular?" );
+            restartLoader();
         } else if (menuItemSelected == R.id.fav_movies){
             //Start new activity to FavMoviesActivity
             Class destinationClass = FavMoviesActivity.class;
@@ -223,9 +225,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             startActivity(intentToStartFavMovies);
         }
         //Need to get AsyncTask to run again to fetch new query
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void restartLoader(){
+        //Need to get AsyncTask to run again to fetch new query
         LoaderManager.LoaderCallbacks<MovieInfo[]> callback = MainActivity.this;
         getSupportLoaderManager().restartLoader(MOVIEDB_QUERY_LOADER, null, callback);
-        return super.onOptionsItemSelected(item);
     }
 
     private void save(Context context, String text){ //save method for shardPreferences when user chooses settings

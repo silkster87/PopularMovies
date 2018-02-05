@@ -89,8 +89,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private boolean findIfFavMovie() {
 
         try{
+            String mSelection = FavMovieContract.FavMovieEntry.MOVIE_ID + "=?";
            Cursor cursor = getContentResolver().query(FavMovieEntry.CONTENT_URI, null,
-                   null,
+                   mSelection,
                    new String[]{Integer.toString(vMovieID)},
                    null,null);
            if(cursor.getCount() != 0) {
