@@ -23,10 +23,10 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
     private final OnFavMovieItemClickListener listener;
 
 
-    public FavMoviesAdapter(Context context, MovieInfo[] items, OnFavMovieItemClickListener listener){
+    public FavMoviesAdapter(Context context, OnFavMovieItemClickListener listener){
         this.mContext = context;
         this.listener = listener;
-        this.mMovieData = items;
+
     }
 
     @Override
@@ -58,17 +58,16 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
 
     public void swapCursor(Cursor newCursor){
         mCursor = newCursor;
-        putCursorDataIntoMovieInfo(mCursor, mMovieData);
+        putCursorDataIntoMovieInfo(mCursor);
         notifyDataSetChanged();
     }
 
-    private void putCursorDataIntoMovieInfo(Cursor mCursor, MovieInfo[] mMovieData) {
+    private void putCursorDataIntoMovieInfo(Cursor mCursor) {
 
         int noOfRows = mCursor.getCount();
         mMovieData = new MovieInfo[noOfRows];
-
+        mCursor.moveToFirst();
         for(int i=1; i <= noOfRows ; i++){
-            mCursor.moveToPosition(i);
             int movieID = mCursor.getInt(FavMoviesActivity.INDEX_MOVIE_ID);
             String originalTitle = mCursor.getString(FavMoviesActivity.INDEX_ORIGINAL_TITLE);
             String releaseDate = mCursor.getString(FavMoviesActivity.INDEX_RELEASE_DATE);
@@ -79,14 +78,13 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
 
             MovieInfo movieInfo = new MovieInfo(movieID, originalTitle, releaseDate, imageThumbPath, imagePath, plot, userRating);
             mMovieData[i-1] = movieInfo;
+            mCursor.moveToNext();
         }
     }
 
     @Override
     public int getItemCount() {
-        if(mCursor.getCount() == 0) {
-            return 0;
-        }
+        if(null == mCursor) return 0;
         return mCursor.getCount();
     }
 

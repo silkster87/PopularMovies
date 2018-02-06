@@ -1,9 +1,7 @@
 package com.example.android.popularmovies;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
+
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 
 import com.example.android.popularmovies.data.FavMovieContract;
 
@@ -21,8 +22,8 @@ public class FavMoviesActivity extends AppCompatActivity implements LoaderManage
     private FavMoviesAdapter mFavMoviesAdapter;
     private RecyclerView mFavMoviesRecyclerView;
     private int mPosition = RecyclerView.NO_POSITION;
-    private MovieInfo[] favMovieInfos;
-    private Cursor mCursor;
+
+
     private ProgressBar mLoadingIndicator;
     private TextView mErrorMessage;
 
@@ -60,9 +61,9 @@ public class FavMoviesActivity extends AppCompatActivity implements LoaderManage
         mFavMoviesRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         mFavMoviesRecyclerView.setHasFixedSize(true);
 
-        getLoaderManager().initLoader(ID_FAV_MOVIE_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(ID_FAV_MOVIE_LOADER_ID, null, this);
 
-        mFavMoviesAdapter = new FavMoviesAdapter(this, favMovieInfos, new FavMoviesAdapter.OnFavMovieItemClickListener() {
+        mFavMoviesAdapter = new FavMoviesAdapter(this, new FavMoviesAdapter.OnFavMovieItemClickListener() {
             @Override
             public void onItemClick(MovieInfo item) {
 
@@ -104,7 +105,7 @@ public class FavMoviesActivity extends AppCompatActivity implements LoaderManage
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         mFavMoviesAdapter.swapCursor(data);
-        mCursor = data;
+
         if(mPosition == RecyclerView.NO_POSITION)mPosition = 0;
 
         mFavMoviesRecyclerView.smoothScrollToPosition(mPosition);
