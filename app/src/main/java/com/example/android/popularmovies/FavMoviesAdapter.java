@@ -64,6 +64,7 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
 
     private void putCursorDataIntoMovieInfo(Cursor mCursor) {
 
+        if(mCursor == null) return;
         int noOfRows = mCursor.getCount();
         mMovieData = new MovieInfo[noOfRows];
         mCursor.moveToFirst();
@@ -106,4 +107,5 @@ public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavM
             });
         }
     }
+
 }

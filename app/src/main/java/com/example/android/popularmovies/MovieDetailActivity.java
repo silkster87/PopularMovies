@@ -97,9 +97,7 @@ public class MovieDetailActivity extends AppCompatActivity {
            if(cursor.getCount() != 0) {
                return true;
            } else {
-               Toast.makeText(getBaseContext(), "Not in fav movie DB", Toast.LENGTH_LONG).show();
                return false;
-
            }
         } catch (Exception e){
             Toast.makeText(getBaseContext(), "query was wrong", Toast.LENGTH_LONG).show();

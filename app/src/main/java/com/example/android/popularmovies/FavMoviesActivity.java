@@ -127,4 +127,12 @@ public class FavMoviesActivity extends AppCompatActivity implements LoaderManage
     public void onLoaderReset(Loader<Cursor> loader) {
         mFavMoviesAdapter.swapCursor(null);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportLoaderManager().restartLoader(ID_FAV_MOVIE_LOADER_ID, null, this);
+    }
 }
+
+
