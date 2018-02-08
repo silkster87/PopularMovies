@@ -1,11 +1,12 @@
 package com.example.android.popularmovies;
 
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +18,13 @@ import android.widget.Toast;
 
 import com.example.android.popularmovies.data.FavMovieContract;
 import com.example.android.popularmovies.data.FavMovieContract.FavMovieEntry;
-import com.example.android.popularmovies.data.FavMovieDbHelper;
+import com.example.android.popularmovies.utilities.NetworkUtils;
+import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+
+import java.net.URL;
 
 //When user clicks on a movie, this will set the view for more info on that movie.
 public class MovieDetailActivity extends AppCompatActivity {
@@ -40,7 +46,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private CheckBox mFavMovieCheckBox;
 
     private MovieInfo mMovieInfo;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +88,106 @@ public class MovieDetailActivity extends AppCompatActivity {
         }else{
             mFavMovieCheckBox.setChecked(false);
         }
+        runMultipleAsyncTask();
+
     }
+
+    private void runMultipleAsyncTask() {
+
+        MovieTrailerTask movieTrailerTask = new MovieTrailerTask();
+        String movieID = Integer.toString(vMovieID);
+        String movieTrailerEndpoint = "/movie/" + movieID + "/videos?";
+        URL movieTrailersURL = NetworkUtils.buildUrl(movieTrailerEndpoint);
+        movieTrailerTask.execute(movieTrailersURL);
+
+        MovieReviewTask movieReviewTask = new MovieReviewTask();
+        String movieReviewEndpoint = "/movie/" + movieID + "/reviews?";
+        URL movieReviewsURL = NetworkUtils.buildUrl(movieReviewEndpoint);
+        movieReviewTask.execute(movieReviewsURL);
+    }
+
+    private class MovieTrailerTask extends AsyncTask<URL, Void, MovieTrailerInfo[]> {
+
+
+        @Override
+        protected MovieTrailerInfo[] doInBackground(URL... urls) {
+
+            URL movieTrailersURL = urls[0];
+
+            try{
+                String jsonMovieTrailerDataResponse =
+                        NetworkUtils.getResponseFromHttpUrl(movieTrailersURL);
+
+                JSONArray simpleJsonMovieTrailersData =
+                        OpenMovieJsonUtils.getJsonArrayOfMovieResults(MovieDetailActivity.this, jsonMovieTrailerDataResponse);
+
+                if(simpleJsonMovieTrailersData == null) throw new AssertionError();
+                MovieTrailerInfo[] movieTrailersInfoArray = new MovieTrailerInfo[simpleJsonMovieTrailersData.length()];
+
+                for(int i=0; i<simpleJsonMovieTrailersData.length(); i++){
+                    String movieTrailerID = simpleJsonMovieTrailersData.getJSONObject(i).getString("id");
+                    String movieTrailerName = simpleJsonMovieTrailersData.getJSONObject(i).getString("name");
+                    String movieTrailerKey = simpleJsonMovieTrailersData.getJSONObject(i).getString("key");
+
+                    MovieTrailerInfo movieTrailerInfo = new MovieTrailerInfo(movieTrailerID, movieTrailerName, movieTrailerKey);
+                    movieTrailersInfoArray[i] = movieTrailerInfo;
+                }
+                return movieTrailersInfoArray;
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(MovieTrailerInfo[] movieTrailerInfos) {
+            super.onPostExecute(movieTrailerInfos);
+            //pass the movie trailers array to the trailers recycle view adapter
+        }
+    }
+
+    private class MovieReviewTask extends AsyncTask<URL, Void, MovieReviewInfo[]>{
+
+
+        @Override
+        protected MovieReviewInfo[] doInBackground(URL... urls) {
+
+            URL movieReviewsURL = urls[0];
+            try{
+                String jsonMovieReviewDataResponse =
+                        NetworkUtils.getResponseFromHttpUrl(movieReviewsURL);
+
+                JSONArray simpleJsonMovieReviewsData =
+                        OpenMovieJsonUtils.getJsonArrayOfMovieResults(MovieDetailActivity.this, jsonMovieReviewDataResponse);
+
+                if(simpleJsonMovieReviewsData==null) throw new AssertionError();
+                MovieReviewInfo[] movieReviewsInfoArray = new MovieReviewInfo[simpleJsonMovieReviewsData.length()];
+
+                for(int i=0; i<simpleJsonMovieReviewsData.length(); i++){
+
+                    String movieReviewID = simpleJsonMovieReviewsData.getJSONObject(i).getString("id");
+                    String movieReviewAuthor = simpleJsonMovieReviewsData.getJSONObject(i).getString("author");
+                    String movieReviewContent = simpleJsonMovieReviewsData.getJSONObject(i).getString("content");
+                    String movieReviewURL = simpleJsonMovieReviewsData.getJSONObject(i).getString("url");
+
+                    MovieReviewInfo movieReviewInfo = new MovieReviewInfo(movieReviewID, movieReviewAuthor, movieReviewContent, movieReviewURL);
+                    movieReviewsInfoArray[i] = movieReviewInfo;
+                }
+                return movieReviewsInfoArray;
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(MovieReviewInfo[] movieReviewInfos) {
+            super.onPostExecute(movieReviewInfos);
+            //pass the movie reviews array of data to the review recycle view adapter
+        }
+    }
+
 
     //This method finds out if the movie displayed is in the fav Movie database
     private boolean findIfFavMovie() {
@@ -149,4 +253,5 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
     }
+
 }
