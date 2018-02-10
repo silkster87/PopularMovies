@@ -12,18 +12,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
+ * Content provider for favourite movies. When a user favourites a movie it will be added to the database.
+ * In the settings a user can choose a view for the list of favourite movies. The content provider will query
+ * off the database for the list.
  * Created by Silky on 01/02/2018.
+ *
  */
 
 public class FavMovieContentProvider extends ContentProvider {
 
     private FavMovieDbHelper mFavMoveDbHelper;
 
-    public static final int DIRECTORY_FAVMOVIES = 100;
+    private static final int DIRECTORY_FAVMOVIES = 100;
 
-    public static final int DIRECTORY_FAVMOVIES_ITEM = 101;
+    private static final int DIRECTORY_FAVMOVIES_ITEM = 101;
 
-    public static UriMatcher sUriMatcher = buildUriMatcher();
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
 
     private static UriMatcher buildUriMatcher() {
 

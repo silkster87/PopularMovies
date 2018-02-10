@@ -5,13 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
+/** Database helper class creating the favourite movies table using column names from the contract class.
  * Created by Silky on 01/02/2018.
  */
 
 public class FavMovieDbHelper extends SQLiteOpenHelper {
 
-    public static final String LOG_TAG = FavMovieDbHelper.class.getSimpleName();
+    private static final String LOG_TAG = FavMovieDbHelper.class.getSimpleName();
 
     private static final String DATABASE_NAME = "favMovies.db";
 

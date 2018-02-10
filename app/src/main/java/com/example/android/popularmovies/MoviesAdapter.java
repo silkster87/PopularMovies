@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 
-/**
+/**Adapter class for the main Activity recycler view of popular movies
  * Created by Silky on 08/12/2017.
  */
 

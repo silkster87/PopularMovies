@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
-import com.facebook.stetho.Stetho;
+
 
 import org.json.JSONArray;
 
@@ -99,12 +99,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<MovieInfo[]> onCreateLoader(int id, final Bundle args) {
         return new AsyncTaskLoader<MovieInfo[]>(this) {
 
-            MovieInfo[] movieInfoArray = null;
+            //MovieInfo[] movieInfoArray = null;
 
             @Override
             protected void onStartLoading() {
-                if (movieInfoArray != null) {
-                    deliverResult(movieInfoArray);
+                if (movieInfos != null) {
+                    deliverResult(movieInfos);
                 } else {
                     forceLoad();
                 }

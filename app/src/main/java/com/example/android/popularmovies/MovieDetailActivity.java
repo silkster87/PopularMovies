@@ -32,10 +32,11 @@ import org.json.JSONArray;
 import java.net.URL;
 
 
+
 //When user clicks on a movie, this will set the view for more info on that movie.
 public class MovieDetailActivity extends AppCompatActivity {
 
-    ActivityMovieDetailBinding mBinding;
+    private ActivityMovieDetailBinding mBinding;
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
     private int vMovieID;
     private String vOriginalTitle;
@@ -117,7 +118,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + vImageThumbPath).into(mMovieThumbnail);
 
         mBinding.tvMovieTitle.setText(vOriginalTitle);
-        mBinding.tvMovieReleaseDate.setText(vReleaseDate);
+        mBinding.tvMovieReleaseDate.append(vReleaseDate);
         mBinding.tvMoviePlot.setText(vPlotSynopsis);
         mBinding.tvMovieRating.append(Double.toString(vUserRating));
 
@@ -197,8 +198,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             super.onPostExecute(movieTrailerInfos);
             //pass the movie trailers array to the trailers recycle view adapter
             mTrailersAdapter.setTrailersData(movieTrailerInfos);
-            String key = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
-            vFirstMovieKey = key;
+            vFirstMovieKey = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
+
         }
     }
 

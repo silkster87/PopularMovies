@@ -3,7 +3,7 @@ package com.example.android.popularmovies;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
+/**Custom MovieReviewInfo object to
  * Created by Silky on 07/02/2018.
  */
 
@@ -22,9 +22,6 @@ public class MovieReviewInfo implements Parcelable{
         this.vURL = url;
     }
 
-    public String getvID() {
-        return vID;
-    }
 
     public String getvAuthor() {
         return vAuthor;
@@ -34,9 +31,6 @@ public class MovieReviewInfo implements Parcelable{
         return vContent;
     }
 
-    public String getvURL() {
-        return vURL;
-    }
 
     @Override
     public int describeContents() {

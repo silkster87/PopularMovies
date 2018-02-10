@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
+/**Adapter class for showing the list of reviews in the movie detail activity class.
  * Created by Silky on 10/02/2018.
  */
 

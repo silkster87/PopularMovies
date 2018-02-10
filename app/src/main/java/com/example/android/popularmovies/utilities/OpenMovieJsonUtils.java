@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 
-/**
+/**This class gets the String results of the api query into a JSONArray
  * Created by Silky on 11/12/2017.
  */
 

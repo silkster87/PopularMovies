@@ -1,14 +1,14 @@
 package com.example.android.popularmovies;
 
-/**
+/**Custom class for the movie trailer info
  * Created by Silky on 08/02/2018.
  */
 
 public class MovieTrailerInfo {
 
-    private String vTrailerID;
-    private String vTrailerName;
-    private String vTrailerKey;
+    private final String vTrailerID;
+    private final String vTrailerName;
+    private final String vTrailerKey;
 
     public MovieTrailerInfo(String vTrailerID, String vTrailerName, String vTrailerKey) {
         this.vTrailerID = vTrailerID;
@@ -16,9 +16,6 @@ public class MovieTrailerInfo {
         this.vTrailerKey = vTrailerKey;
     }
 
-    public String getvTrailerID() {
-        return vTrailerID;
-    }
 
     public String getvTrailerName() {
         return vTrailerName;

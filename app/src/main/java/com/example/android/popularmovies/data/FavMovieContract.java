@@ -4,14 +4,14 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
+/**Favourite Movies Contract to set the table columns for the SQLite database.
  * Created by Silky on 01/02/2018.
  */
 
 public class FavMovieContract {
 
-    public static String CONTENT_AUTHORITY = "com.example.android.popularmovies";
-    public static Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String CONTENT_AUTHORITY = "com.example.android.popularmovies";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_MOVIES = "movies";
 
             public static final class FavMovieEntry implements BaseColumns{

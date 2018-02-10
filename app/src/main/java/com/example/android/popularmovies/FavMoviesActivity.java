@@ -27,7 +27,7 @@ public class FavMoviesActivity extends AppCompatActivity implements LoaderManage
     private ProgressBar mLoadingIndicator;
     private TextView mErrorMessage;
 
-    public static final String[] FAV_MOVIES_PROJECTION = {
+    private static final String[] FAV_MOVIES_PROJECTION = {
             FavMovieContract.FavMovieEntry.MOVIE_ID,
             FavMovieContract.FavMovieEntry.ORIGINAL_TITLE,
             FavMovieContract.FavMovieEntry.RELEASE_DATE,
@@ -63,7 +63,7 @@ public class FavMoviesActivity extends AppCompatActivity implements LoaderManage
 
         getSupportLoaderManager().initLoader(ID_FAV_MOVIE_LOADER_ID, null, this);
 
-        mFavMoviesAdapter = new FavMoviesAdapter(this, new FavMoviesAdapter.OnFavMovieItemClickListener() {
+        mFavMoviesAdapter = new FavMoviesAdapter(new FavMoviesAdapter.OnFavMovieItemClickListener() {
             @Override
             public void onItemClick(MovieInfo item) {
 
@@ -88,14 +88,14 @@ public class FavMoviesActivity extends AppCompatActivity implements LoaderManage
             case ID_FAV_MOVIE_LOADER_ID:
                 Uri favMovieQueryUri = FavMovieContract.FavMovieEntry.CONTENT_URI;
 
-                CursorLoader cursorLoader = new CursorLoader(this,
+                return new CursorLoader(this,
                         favMovieQueryUri,
                         FAV_MOVIES_PROJECTION,
                         null,
                         null,
                         null
                 );
-                return cursorLoader;
+
             default:
                 throw new RuntimeException("Loader Not Implemented: " + loaderId);
         }

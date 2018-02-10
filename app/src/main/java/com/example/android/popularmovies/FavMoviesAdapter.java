@@ -10,23 +10,21 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-/**
+/** Favourite Movies Adapter for the FavMoviesActivity to load up a recycler view of favourite movies.
  * Created by Silky on 05/02/2018.
  */
 
 public class FavMoviesAdapter extends RecyclerView.Adapter<FavMoviesAdapter.FavMoviesAdapterViewHolder>{
 
-    private final Context mContext;
+
     private MovieInfo[] mMovieData;
     private Cursor mCursor;
 
     private final OnFavMovieItemClickListener listener;
 
 
-    public FavMoviesAdapter(Context context, OnFavMovieItemClickListener listener){
-        this.mContext = context;
+    public FavMoviesAdapter(OnFavMovieItemClickListener listener){
         this.listener = listener;
-
     }
 
     @Override
