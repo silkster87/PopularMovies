@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,9 +49,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mMovieRating;
     private CheckBox mFavMovieCheckBox;
     private RecyclerView mTrailersRecycleView;
+    private RecyclerView mReviewsRecycleView;
     private TrailersAdapter mTrailersAdapter;
+    private ReviewsAdapter mReviewsAdapter;
 
     private MovieInfo mMovieInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +69,17 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMovieRating = (TextView) findViewById(R.id.tv_movie_rating);
         mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
 
+        //Set the Trailers RecyclerView
         mTrailersRecycleView = (RecyclerView) findViewById(R.id.recyclerView_trailers);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mTrailersRecycleView.setLayoutManager(layoutManager);
         mTrailersRecycleView.setHasFixedSize(true);
+        mTrailersRecycleView.setNestedScrollingEnabled(false);
         mTrailersAdapter = new TrailersAdapter( new TrailersAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MovieTrailerInfo movieTrailerInfo) {
                 String baseYoutubeURL = "https://www.youtube.com/watch?v=";
                 String movieTrailerURL = baseYoutubeURL + movieTrailerInfo.getvTrailerKey();
-                Toast.makeText(getApplicationContext(), movieTrailerURL, Toast.LENGTH_SHORT);
                 Uri webPage = Uri.parse(movieTrailerURL);
                 Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
                 if(intent.resolveActivity(getPackageManager())!=null){
@@ -83,6 +88,17 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
         mTrailersRecycleView.setAdapter(mTrailersAdapter);
+
+        //Set the Reviews RecyclerView
+        mReviewsRecycleView = (RecyclerView) findViewById(R.id.recyclerView_reviews);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mReviewsRecycleView.setLayoutManager(layoutManager2);
+        mReviewsRecycleView.setHasFixedSize(true);
+        mReviewsRecycleView.setNestedScrollingEnabled(false);
+
+        mReviewsAdapter = new ReviewsAdapter();
+        mReviewsRecycleView.setAdapter(mReviewsAdapter);
+
 
         //find out if this particular movie has been added to favourite movies database if it is
         //then the mFavMovieCheckBox needs to be checked
@@ -129,6 +145,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         URL movieReviewsURL = NetworkUtils.buildUrl(movieReviewEndpoint);
         movieReviewTask.execute(movieReviewsURL);
     }
+
 
     private class MovieTrailerTask extends AsyncTask<URL, Void, MovieTrailerInfo[]> {
 
@@ -209,7 +226,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(MovieReviewInfo[] movieReviewInfos) {
             super.onPostExecute(movieReviewInfos);
-            //pass the movie reviews array of data to the review recycle view adapter
+            //pass the movie reviews array of data to the reviews adapter
+            mReviewsAdapter.setReviewsData(movieReviewInfos);
         }
     }
 
