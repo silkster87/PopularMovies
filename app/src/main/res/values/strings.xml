@@ -4,7 +4,7 @@
 
     <string name="Release_date">Release Date:\u0020</string>
     <string name="Av_Rating">Average Rating:\u0020</string>
-    <string name="Plot">Plot Synopsis: \n\n</string>
+    <string name="Plot">Storyline \n\n</string>
 
     <string name="Sort_popular_movies">Sort by Popular Movies</string>
     <string name="Sort_high_rated">Sort by Highest Rated</string>
