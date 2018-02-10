@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +17,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.data.FavMovieContract;
 import com.example.android.popularmovies.data.FavMovieContract.FavMovieEntry;
+import com.example.android.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
 import com.squareup.picasso.Picasso;
@@ -29,11 +30,11 @@ import org.json.JSONArray;
 
 import java.net.URL;
 
-import me.biubiubiu.justifytext.library.JustifyTextView;
 
 //When user clicks on a movie, this will set the view for more info on that movie.
 public class MovieDetailActivity extends AppCompatActivity {
 
+    ActivityMovieDetailBinding mBinding;
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
     private int vMovieID;
     private String vOriginalTitle;
@@ -41,13 +42,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String vImageThumbPath;
     private String vImagePath;
     private String vPlotSynopsis;
+    private String vFirstMovieKey;
     private Double vUserRating;
 
     private ImageView mMovieThumbnail;
-    private TextView mMovieTitle;
-    private TextView mMovieReleaseDate;
-    private TextView mMoviePlot;
-    private TextView mMovieRating;
+
     private CheckBox mFavMovieCheckBox;
     private RecyclerView mTrailersRecycleView;
     private RecyclerView mReviewsRecycleView;
@@ -61,13 +60,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
         mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
 
         mMovieThumbnail = (ImageView) findViewById(R.id.tv_movie_thumbnail);
-        mMovieTitle = (TextView) findViewById(R.id.tv_movie_title);
-        mMovieReleaseDate = (TextView) findViewById(R.id.tv_movie_release_date);
-        mMoviePlot = (TextView) findViewById(R.id.tv_movie_plot);
-        mMovieRating = (TextView) findViewById(R.id.tv_movie_rating);
+
         mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
 
         //Set the Trailers RecyclerView
@@ -117,10 +114,12 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Context context = mMovieThumbnail.getContext();
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + vImageThumbPath).into(mMovieThumbnail);
-        mMovieTitle.setText(vOriginalTitle);
-        mMovieReleaseDate.append(vReleaseDate);
-        mMoviePlot.setText(vPlotSynopsis);
-        mMovieRating.append(Double.toString(vUserRating));
+
+        mBinding.tvMovieTitle.setText(vOriginalTitle);
+        mBinding.tvMovieReleaseDate.setText(vReleaseDate);
+        mBinding.tvMoviePlot.setText(vPlotSynopsis);
+        mBinding.tvMovieRating.append(Double.toString(vUserRating));
+
 
         boolean isFavMovie = findIfFavMovie();
 
@@ -145,6 +144,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         String movieReviewEndpoint = "/movie/" + movieID + "/reviews?";
         URL movieReviewsURL = NetworkUtils.buildUrl(movieReviewEndpoint);
         movieReviewTask.execute(movieReviewsURL);
+    }
+
+    public void onShareButtonClicked(View view) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi! I'd like to share " + vOriginalTitle + ". Here is the link: "
+        + "https://www.youtube.com/watch?v=" + vFirstMovieKey);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
 
@@ -187,6 +195,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             super.onPostExecute(movieTrailerInfos);
             //pass the movie trailers array to the trailers recycle view adapter
             mTrailersAdapter.setTrailersData(movieTrailerInfos);
+            String key = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
+            vFirstMovieKey = key;
         }
     }
 

@@ -19,6 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding.enabled = true
 }
 // added mavenCentral and compile to use Picasso for image loading
 repositories {
