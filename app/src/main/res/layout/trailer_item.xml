@@ -6,6 +6,9 @@
     <Button
         android:id="@+id/trailer_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Trailer 1"
+        android:textColor="#fff"/>
 
 </android.support.constraint.ConstraintLayout>

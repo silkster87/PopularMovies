@@ -4,11 +4,14 @@ package com.example.android.popularmovies;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -44,6 +47,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mMoviePlot;
     private TextView mMovieRating;
     private CheckBox mFavMovieCheckBox;
+    private RecyclerView mTrailersRecycleView;
+    private TrailersAdapter mTrailersAdapter;
 
     private MovieInfo mMovieInfo;
 
@@ -59,6 +64,25 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMoviePlot = (TextView) findViewById(R.id.tv_movie_plot);
         mMovieRating = (TextView) findViewById(R.id.tv_movie_rating);
         mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
+
+        mTrailersRecycleView = (RecyclerView) findViewById(R.id.recyclerView_trailers);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mTrailersRecycleView.setLayoutManager(layoutManager);
+        mTrailersRecycleView.setHasFixedSize(true);
+        mTrailersAdapter = new TrailersAdapter( new TrailersAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(MovieTrailerInfo movieTrailerInfo) {
+                String baseYoutubeURL = "https://www.youtube.com/watch?v=";
+                String movieTrailerURL = baseYoutubeURL + movieTrailerInfo.getvTrailerKey();
+                Toast.makeText(getApplicationContext(), movieTrailerURL, Toast.LENGTH_SHORT);
+                Uri webPage = Uri.parse(movieTrailerURL);
+                Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+                if(intent.resolveActivity(getPackageManager())!=null){
+                    startActivity(intent);
+                }
+            }
+        });
+        mTrailersRecycleView.setAdapter(mTrailersAdapter);
 
         //find out if this particular movie has been added to favourite movies database if it is
         //then the mFavMovieCheckBox needs to be checked
@@ -144,6 +168,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(MovieTrailerInfo[] movieTrailerInfos) {
             super.onPostExecute(movieTrailerInfos);
             //pass the movie trailers array to the trailers recycle view adapter
+            mTrailersAdapter.setTrailersData(movieTrailerInfos);
         }
     }
 

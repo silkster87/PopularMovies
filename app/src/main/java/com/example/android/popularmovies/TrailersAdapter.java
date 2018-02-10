@@ -17,8 +17,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     private MovieTrailerInfo[] mMovieTrailerInfo;
     private final OnItemClickListener listener;
 
-    public TrailersAdapter(MovieTrailerInfo[] movieTrailers, OnItemClickListener listener){
-        this.mMovieTrailerInfo = movieTrailers;
+    public TrailersAdapter(OnItemClickListener listener){
         this.listener = listener;
     }
 
@@ -55,7 +54,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         }
 
         public void bind(final MovieTrailerInfo movieTrailer, final OnItemClickListener listener){
-            itemView.setOnClickListener(new View.OnClickListener(){
+            mTrailerButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
                     listener.onItemClick(movieTrailer);
