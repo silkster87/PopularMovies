@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -156,6 +157,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     private class MovieTrailerTask extends AsyncTask<URL, Void, MovieTrailerInfo[]> {
 
 
@@ -200,6 +202,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class MovieReviewTask extends AsyncTask<URL, Void, MovieReviewInfo[]>{
 
 
@@ -253,6 +256,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                    new String[]{Integer.toString(vMovieID)},
                    null,null);
            if(cursor.getCount() != 0) {
+               cursor.close();
                return true;
            } else {
                return false;

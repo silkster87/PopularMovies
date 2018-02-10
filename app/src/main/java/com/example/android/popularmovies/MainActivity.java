@@ -52,12 +52,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                .build());
-
-
 
         //Sharedpreferences to get preference from specified file
         settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
