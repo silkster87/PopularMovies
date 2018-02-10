@@ -12,85 +12,98 @@
         android:orientation="vertical">
 
         <ImageView
-            android:contentDescription="@string/thumbnail_desc"
+            android:id="@+id/tv_movie_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:scaleType="centerCrop"
-            android:id="@+id/tv_movie_thumbnail" />
+            android:contentDescription="@string/thumbnail_desc"
+            android:scaleType="centerCrop" />
 
         <TextView
+            android:id="@+id/tv_movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:textSize="30sp"
-            android:id="@+id/tv_movie_title"/>
+            android:textSize="30sp" />
 
         <TextView
+            android:id="@+id/tv_movie_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:textSize="20sp"
             android:text="@string/Release_date"
-            android:id="@+id/tv_movie_release_date"/>
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/tv_movie_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:padding="8sp"
             android:text="@string/Av_Rating"
-            android:textStyle="bold"
-            android:id="@+id/tv_movie_rating"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/checkbox_favMovie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:button="@null"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            android:onClick="onFavCheckboxClicked"
             android:text="@string/fav_movie"
-            android:textSize="20sp"
-            android:onClick="onFavCheckboxClicked"/>
+            android:textSize="20sp" />
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_trailers"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:id="@+id/tv_movie_plot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/Plot"
-            android:padding="8sp"
-            android:id="@+id/tv_movie_plot"/>
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
             android:id="@+id/reviews_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/reviews_label"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
-            android:textSize="20sp"/>
+            android:layout_marginTop="8dp"
+            android:text="@string/reviews_label"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_reviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            />
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
