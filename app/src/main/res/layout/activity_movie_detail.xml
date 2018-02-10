@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context="com.example.android.popularmovies.MovieDetailActivity">
 
     <LinearLayout
@@ -22,6 +23,7 @@
             android:id="@+id/tv_movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:padding="8dp"
             android:textSize="30sp" />
 
@@ -29,6 +31,7 @@
             android:id="@+id/tv_movie_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:padding="8dp"
             android:text="@string/Release_date"
             android:textSize="20sp" />
@@ -38,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8sp"
+            android:layout_marginLeft="8dp"
             android:text="@string/Av_Rating"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -49,6 +53,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:button="@null"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
             android:onClick="onFavCheckboxClicked"
@@ -61,8 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="8dp" />
 
         <View
@@ -74,9 +79,9 @@
             android:id="@+id/plot_label"
             android:layout_width="match_parent"
             android:layout_height="33dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             android:text="@string/Plot"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -86,8 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
             android:textSize="16sp" />
 
@@ -101,8 +106,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/reviews_label"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -112,8 +117,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
