@@ -13,15 +13,17 @@
         android:layout_marginLeft="8dp"
         android:text="James Bond"/>
 
-    <TextView
+    <me.biubiubiu.justifytext.library.JustifyTextView
         android:id="@+id/review_content"
         app:layout_constraintTop_toBottomOf="@+id/review_author"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:textStyle="italic"
         android:text="This film is very good but a few bloopers."/>
 
 </android.support.constraint.ConstraintLayout>
