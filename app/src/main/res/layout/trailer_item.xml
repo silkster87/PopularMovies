@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:layout_marginLeft="8dp"
-        android:text="Trailer 1 The Godfather"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:textColor="#fff"/>
