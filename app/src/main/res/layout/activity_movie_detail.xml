@@ -60,7 +60,7 @@
             android:id="@+id/recyclerView_trailers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp" />
@@ -71,15 +71,25 @@
             android:background="@android:color/darker_gray"/>
 
         <TextView
+            android:id="@+id/plot_label"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/Plot"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tv_movie_plot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/Plot"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
@@ -90,7 +100,7 @@
             android:id="@+id/reviews_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/reviews_label"

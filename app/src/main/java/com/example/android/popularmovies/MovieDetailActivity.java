@@ -119,7 +119,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + vImageThumbPath).into(mMovieThumbnail);
         mMovieTitle.setText(vOriginalTitle);
         mMovieReleaseDate.append(vReleaseDate);
-        mMoviePlot.append(vPlotSynopsis);
+        mMoviePlot.setText(vPlotSynopsis);
         mMovieRating.append(Double.toString(vUserRating));
 
         boolean isFavMovie = findIfFavMovie();
