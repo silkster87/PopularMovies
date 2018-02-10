@@ -37,5 +37,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
+    //justify text used - more info on https://github.com/ufo22940268/android-justifiedtextview
     compile 'me.biubiubiu.justifytext:library:1.1'
 }
