@@ -15,10 +15,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsA
 
     private MovieReviewInfo[] mMovieReviews;
 
-    public ReviewsAdapter(){
-
-    }
-
     @Override
     public ReviewsAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
