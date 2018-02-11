@@ -99,15 +99,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<MovieInfo[]> onCreateLoader(int id, final Bundle args) {
         return new AsyncTaskLoader<MovieInfo[]>(this) {
 
-            //MovieInfo[] movieInfoArray = null;
 
             @Override
             protected void onStartLoading() {
-                if (movieInfos != null) {
-                    deliverResult(movieInfos);
-                } else {
-                    forceLoad();
-                }
+                forceLoad();
             }
 
             @Override
@@ -168,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mMoviesAdapter.setMovieData(data); //The method setMovieData will load up images.
  
-        if(null == data){
+        if(data == null){
             showErrorMessage();
         }else{
             showMovieDataView();
