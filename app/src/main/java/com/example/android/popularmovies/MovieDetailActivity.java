@@ -46,16 +46,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String vFirstMovieKey;
     private Double vUserRating;
 
-
-    private ImageView mMoviePoster;
-    private CheckBox mFavMovieCheckBox;
     private RecyclerView mTrailersRecycleView;
     private RecyclerView mReviewsRecycleView;
-
     private TrailersAdapter mTrailersAdapter;
     private ReviewsAdapter mReviewsAdapter;
-
-    private MovieInfo mMovieInfo;
 
 
     @Override
@@ -63,13 +57,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
-        mMoviePoster = (ImageView) findViewById(R.id.tv_movie_poster);
-        mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
+
+        ImageView mMoviePoster = (ImageView) findViewById(R.id.tv_movie_poster);
+        CheckBox mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
         mTrailersRecycleView = (RecyclerView) findViewById(R.id.recyclerView_trailers);
         mReviewsRecycleView = (RecyclerView) findViewById(R.id.recyclerView_reviews);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
-        mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
+        MovieInfo mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mTrailersRecycleView.setLayoutManager(layoutManager);
@@ -96,7 +91,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mReviewsAdapter = new ReviewsAdapter();
         mReviewsRecycleView.setAdapter(mReviewsAdapter);
-
 
         //find out if this particular movie has been added to favourite movies database if it is
         //then the mFavMovieCheckBox needs to be checked
@@ -195,12 +189,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(MovieTrailerInfo[] movieTrailerInfos) {
             super.onPostExecute(movieTrailerInfos);
             //pass the movie trailers array to the trailers recycle view adapter
-          //  if(movieTrailerInfos != null) {
+
                 mTrailersAdapter.setTrailersData(movieTrailerInfos);
+
                 vFirstMovieKey = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
-          //  } else {
-          //      Log.e(TAG, "No Movie Trailers." );
-         //   }
+
         }
     }
 
@@ -244,6 +237,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             super.onPostExecute(movieReviewInfos);
             //pass the movie reviews array of data to the reviews adapter
             mReviewsAdapter.setReviewsData(movieReviewInfos);
+
         }
     }
 
