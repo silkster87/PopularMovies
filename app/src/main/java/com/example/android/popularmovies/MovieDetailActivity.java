@@ -197,9 +197,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(MovieTrailerInfo[] movieTrailerInfos) {
             super.onPostExecute(movieTrailerInfos);
             //pass the movie trailers array to the trailers recycle view adapter
-            mTrailersAdapter.setTrailersData(movieTrailerInfos);
-            vFirstMovieKey = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
-
+            if(movieTrailerInfos != null) {
+                mTrailersAdapter.setTrailersData(movieTrailerInfos);
+                vFirstMovieKey = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
+            } else {
+                Log.e(TAG, "No Movie Trailers." );
+            }
         }
     }
 
