@@ -31,8 +31,6 @@ import org.json.JSONArray;
 
 import java.net.URL;
 
-import butterknife.BindView;
-
 
 //When user clicks on a movie, this will set the view for more info on that movie.
 public class MovieDetailActivity extends AppCompatActivity {
@@ -48,11 +46,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String vFirstMovieKey;
     private Double vUserRating;
 
-    @BindView(R.id.tv_movie_poster) ImageView mMoviePoster;
-    @BindView(R.id.checkbox_favMovie) CheckBox mFavMovieCheckBox;
-    @BindView(R.id.recyclerView_trailers) RecyclerView mTrailersRecycleView;
-    @BindView(R.id.recyclerView_reviews) RecyclerView mReviewsRecycleView;
-    
+
+    private ImageView mMoviePoster;
+    private CheckBox mFavMovieCheckBox;
+    private RecyclerView mTrailersRecycleView;
+    private RecyclerView mReviewsRecycleView;
+
     private TrailersAdapter mTrailersAdapter;
     private ReviewsAdapter mReviewsAdapter;
 
@@ -63,6 +62,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+
+        mMoviePoster = (ImageView) findViewById(R.id.tv_movie_poster);
+        mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
+        mTrailersRecycleView = (RecyclerView) findViewById(R.id.recyclerView_trailers);
+        mReviewsRecycleView = (RecyclerView) findViewById(R.id.recyclerView_reviews);
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
         mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
 
@@ -190,12 +195,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(MovieTrailerInfo[] movieTrailerInfos) {
             super.onPostExecute(movieTrailerInfos);
             //pass the movie trailers array to the trailers recycle view adapter
-            if(movieTrailerInfos != null) {
+          //  if(movieTrailerInfos != null) {
                 mTrailersAdapter.setTrailersData(movieTrailerInfos);
                 vFirstMovieKey = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
-            } else {
-                Log.e(TAG, "No Movie Trailers." );
-            }
+          //  } else {
+          //      Log.e(TAG, "No Movie Trailers." );
+         //   }
         }
     }
 
