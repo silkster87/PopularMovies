@@ -47,7 +47,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String vFirstMovieKey;
     private Double vUserRating;
 
-    private ImageView mMovieThumbnail;
+    private ImageView mMoviePoster;
 
     private CheckBox mFavMovieCheckBox;
     private RecyclerView mTrailersRecycleView;
@@ -65,7 +65,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
         mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
 
-        mMovieThumbnail = (ImageView) findViewById(R.id.tv_movie_thumbnail);
+        mMoviePoster = (ImageView) findViewById(R.id.tv_movie_poster);
 
         mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
 
@@ -114,8 +114,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         //Update the text/image views on the secondary activity
 
-        Context context = mMovieThumbnail.getContext();
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + vImageThumbPath).into(mMovieThumbnail);
+        Context contextPoster = mMoviePoster.getContext();
+        Picasso.with(contextPoster).load("http://image.tmdb.org/t/p/w342/" + vImagePath).into(mMoviePoster);
 
         mBinding.tvMovieTitle.setText(vOriginalTitle);
         mBinding.tvMovieReleaseDate.append(vReleaseDate);
