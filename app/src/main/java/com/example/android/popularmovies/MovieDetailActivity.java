@@ -31,6 +31,7 @@ import org.json.JSONArray;
 
 import java.net.URL;
 
+import butterknife.BindView;
 
 
 //When user clicks on a movie, this will set the view for more info on that movie.
@@ -47,11 +48,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String vFirstMovieKey;
     private Double vUserRating;
 
-    private ImageView mMoviePoster;
-
-    private CheckBox mFavMovieCheckBox;
-    private RecyclerView mTrailersRecycleView;
-    private RecyclerView mReviewsRecycleView;
+    @BindView(R.id.tv_movie_poster) ImageView mMoviePoster;
+    @BindView(R.id.checkbox_favMovie) CheckBox mFavMovieCheckBox;
+    @BindView(R.id.recyclerView_trailers) RecyclerView mTrailersRecycleView;
+    @BindView(R.id.recyclerView_reviews) RecyclerView mReviewsRecycleView;
+    
     private TrailersAdapter mTrailersAdapter;
     private ReviewsAdapter mReviewsAdapter;
 
@@ -65,12 +66,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
         mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
 
-        mMoviePoster = (ImageView) findViewById(R.id.tv_movie_poster);
-
-        mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
-
-        //Set the Trailers RecyclerView
-        mTrailersRecycleView = (RecyclerView) findViewById(R.id.recyclerView_trailers);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mTrailersRecycleView.setLayoutManager(layoutManager);
         mTrailersRecycleView.setHasFixedSize(true);
@@ -89,8 +84,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
         mTrailersRecycleView.setAdapter(mTrailersAdapter);
 
-        //Set the Reviews RecyclerView
-        mReviewsRecycleView = (RecyclerView) findViewById(R.id.recyclerView_reviews);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mReviewsRecycleView.setLayoutManager(layoutManager2);
         mReviewsRecycleView.setHasFixedSize(true);
