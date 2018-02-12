@@ -15,4 +15,5 @@
     <string name="fav_movie_settings_label">Favourite Movies</string>
     <string name="reviews_label">Reviews</string>
     <string name="share_movie">Share</string>
+    <string name="no_trailers">No trailers found</string>
 </resources>

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.data.FavMovieContract;
@@ -30,6 +31,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 
 import java.net.URL;
+
 
 
 //When user clicks on a movie, this will set the view for more info on that movie.
@@ -46,26 +48,32 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String vFirstMovieKey;
     private Double vUserRating;
 
+    private ImageView mMoviePoster;
+    private TextView mNoTrailersTextView;
+
+    private CheckBox mFavMovieCheckBox;
     private RecyclerView mTrailersRecycleView;
     private RecyclerView mReviewsRecycleView;
     private TrailersAdapter mTrailersAdapter;
     private ReviewsAdapter mReviewsAdapter;
+
+    private MovieInfo mMovieInfo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
-
-        ImageView mMoviePoster = (ImageView) findViewById(R.id.tv_movie_poster);
-        CheckBox mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
-        mTrailersRecycleView = (RecyclerView) findViewById(R.id.recyclerView_trailers);
-        mReviewsRecycleView = (RecyclerView) findViewById(R.id.recyclerView_reviews);
-
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
-        MovieInfo mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
+        mMovieInfo = getIntent().getParcelableExtra("mMovieDetails");
 
+        mMoviePoster = (ImageView) findViewById(R.id.tv_movie_poster);
+        mNoTrailersTextView = (TextView) findViewById(R.id.no_trailers_error_msg);
+
+        mFavMovieCheckBox = (CheckBox) findViewById(R.id.checkbox_favMovie);
+
+        //Set the Trailers RecyclerView
+        mTrailersRecycleView = (RecyclerView) findViewById(R.id.recyclerView_trailers);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mTrailersRecycleView.setLayoutManager(layoutManager);
         mTrailersRecycleView.setHasFixedSize(true);
@@ -84,6 +92,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
         mTrailersRecycleView.setAdapter(mTrailersAdapter);
 
+        //Set the Reviews RecyclerView
+        mReviewsRecycleView = (RecyclerView) findViewById(R.id.recyclerView_reviews);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mReviewsRecycleView.setLayoutManager(layoutManager2);
         mReviewsRecycleView.setHasFixedSize(true);
@@ -91,6 +101,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mReviewsAdapter = new ReviewsAdapter();
         mReviewsRecycleView.setAdapter(mReviewsAdapter);
+
 
         //find out if this particular movie has been added to favourite movies database if it is
         //then the mFavMovieCheckBox needs to be checked
@@ -106,8 +117,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         //Update the text/image views on the secondary activity
 
-        Context contextPoster = mMoviePoster.getContext();
-        Picasso.with(contextPoster).load("http://image.tmdb.org/t/p/w342/" + vImagePath).into(mMoviePoster);
+        Context context = mMoviePoster.getContext();
+        Picasso.with(context).load("http://image.tmdb.org/t/p/w342/" + vImagePath).into(mMoviePoster);
 
         mBinding.tvMovieTitle.setText(vOriginalTitle);
         mBinding.tvMovieReleaseDate.append(vReleaseDate);
@@ -144,7 +155,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi! I'd like to share " + vOriginalTitle + ". Here is the link: "
-        + "https://www.youtube.com/watch?v=" + vFirstMovieKey);
+                + "https://www.youtube.com/watch?v=" + vFirstMovieKey);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }
@@ -189,11 +200,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(MovieTrailerInfo[] movieTrailerInfos) {
             super.onPostExecute(movieTrailerInfos);
             //pass the movie trailers array to the trailers recycle view adapter
-
+            if(movieTrailerInfos != null) {
                 mTrailersAdapter.setTrailersData(movieTrailerInfos);
-
+                mTrailersRecycleView.setVisibility(View.VISIBLE);
+                mNoTrailersTextView.setVisibility(View.INVISIBLE);
                 vFirstMovieKey = movieTrailerInfos[0].getvTrailerKey(); //get first key of trailer to use it for sharing
-
+            } else {
+                //display message - No movie trailers
+                mTrailersRecycleView.setVisibility(View.INVISIBLE);
+                mNoTrailersTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -236,8 +252,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(MovieReviewInfo[] movieReviewInfos) {
             super.onPostExecute(movieReviewInfos);
             //pass the movie reviews array of data to the reviews adapter
-            mReviewsAdapter.setReviewsData(movieReviewInfos);
-
+                mReviewsAdapter.setReviewsData(movieReviewInfos);
         }
     }
 
@@ -247,16 +262,16 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         try{
             String mSelection = FavMovieContract.FavMovieEntry.MOVIE_ID + "=?";
-           Cursor cursor = getContentResolver().query(FavMovieEntry.CONTENT_URI, null,
-                   mSelection,
-                   new String[]{Integer.toString(vMovieID)},
-                   null,null);
-           if(cursor.getCount() != 0) {
-               cursor.close();
-               return true;
-           } else {
-               return false;
-           }
+            Cursor cursor = getContentResolver().query(FavMovieEntry.CONTENT_URI, null,
+                    mSelection,
+                    new String[]{Integer.toString(vMovieID)},
+                    null,null);
+            if(cursor.getCount() != 0) {
+                cursor.close();
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e){
             Toast.makeText(getBaseContext(), "query was wrong", Toast.LENGTH_LONG).show();
             Log.e(TAG, "Unable to query data or not favourited movie.");
